@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Validator;
 use phpDocumentor\Reflection\Type;
 use Carbon\Carbon;
 
-
 class ServicesController extends BaseController
 {
 

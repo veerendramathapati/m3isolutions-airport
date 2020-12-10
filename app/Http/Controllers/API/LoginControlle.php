@@ -73,12 +73,42 @@ class LoginControlle extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-       public function login(Request $request)
+//        public function login(Request $request)
+//     {
+//         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+//             $user = Auth::user();
+// //            dd($user);
+// //        $success = $request->all();
+//             $success['token'] =  $user->createToken('MyApp')-> accessToken;
+//             $success['name'] =  $user->username;
+//             $success['id'] =  $user->id;
+//             $success['role_id'] =  $user->role_id;
+//             $success['login_id'] =  $user->login_id;
+//             $success['password'] =  $user->password;
+//             $success['email'] =  $user->email;
+//             $success['mobile_no'] =  $user->mobile_no;
+//             $success['status'] =  $user->status;
+//             $success['created_by'] =  $user->created_by;
+// //
+//             return $this->sendResponse($success, 'User login successfully.');
+//         }
+//         else{
+//             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+//         }
+//     }
+ public function login(Request $request)
     {
+
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
 //            dd($user);
-//        $success = $request->all();
+
+            $device_token=$request->device_token;
+
+            $user->device_token=$request->device_token;
+            $user->created_by=$user['user_id'];
+            $user->save();
+
             $success['token'] =  $user->createToken('MyApp')-> accessToken;
             $success['name'] =  $user->username;
             $success['id'] =  $user->id;
@@ -96,7 +126,6 @@ class LoginControlle extends BaseController
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
     }
-
 
     public function logout(Request $request)
     {

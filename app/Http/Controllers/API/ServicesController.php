@@ -1040,25 +1040,40 @@ if ($data->isEmpty()) {
 
         $user = $request->all();
 //dd($user);
-                $updated_date= date('Y-m-d h:i:s');
-                $insert_latest_login1=users_details::create([
+//        email,pass,dt
+
+        $user_details = User::where('id', $request->user_id)->first();
+        $user_device_token=$user_details->device_token;
+        $device_token=$request->device_token;
+
+            if($user_device_token==$device_token) {
+
+                date_default_timezone_set('Asia/Kolkata');
+                $updated_date = date('Y-m-d h:i:s');
+//                dd($updated_date);
+                $insert_latest_login1 = users_details::create([
                     'user_id' => $user['user_id'],
-                    'lastest_login'=>$updated_date,
+                    'lastest_login' => $updated_date,
                     'created_by' => $user['user_id'],
                 ]);
 
-            $insert_password=users_passwords::where('user_id',$user['user_id'])->first();
+                $insert_password = users_passwords::where('user_id', $user['user_id'])->first();
 
-            $date1=$insert_password->updated_at;
-            $now = Carbon::now();
-            $diff = $date1->diffInDays($now);
-           if($diff >='90')
-            {
-                return $this->sendResponse_active('Please Update your Password.');
+                if($insert_password==null) {
+                    return $this->sendResponse_active('Data Inserted successful.');
+                }
 
+                $date1 = $insert_password->updated_at;
+                $now = Carbon::now();
+                $diff = $date1->diffInDays($now);
+                if ($diff >= '90') {
+                    return $this->sendError_msg_pass('Password');
+                }
+                return $this->sendResponse_active('Data Inserted successful.');
+            }
+            else{
+                return $this->sendError_msg_pass('device_token');
             }
 
-            return $this->sendResponse_active(' Data Inserted successful.');
         }
-
 }

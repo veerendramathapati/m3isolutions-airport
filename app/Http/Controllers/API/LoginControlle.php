@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\API;
 
 
+use App\User;
 use App\users_details;
 use App\users_passwords;
 use Carbon\Carbon;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 

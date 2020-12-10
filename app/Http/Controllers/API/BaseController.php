@@ -48,7 +48,7 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendError($error, $errorMessages = [], $code = 404)
+       public function sendError($error, $errorMessages = [], $code = 404)
     {
         $response = [
             'success' => false,
@@ -62,8 +62,7 @@ class BaseController extends Controller
 
         return response()->json($response, $code);
     }
-    
-        public function sendError_msg($error, $errorMessages = [], $code = 404)
+    public function sendError_msg($error, $errorMessages = [], $code = 404)
     {
         $response = [
             'success' => false,
@@ -78,8 +77,16 @@ class BaseController extends Controller
 
         return response()->json($response, $code);
     }
-    
-      public function sendResponse_active($message)
+    public function sendError_msg_pass($message)
+    {
+        $response = [
+            'success' => false,
+            'message' => $message,
+        ];
+
+        return response()->json($response, 200);
+    }
+    public function sendResponse_active($message)
     {
         $response = [
             'success' => true,
@@ -89,5 +96,4 @@ class BaseController extends Controller
 
         return response()->json($response, 200);
     }
-
 }
